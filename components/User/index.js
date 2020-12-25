@@ -11,7 +11,7 @@ module.exports = {
     if(!match) throw Error('Wrong credentials');
     
     const token = signToken({
-      name: user.name, email: user.email
+      name: user.name, email: user.email, id: user._id
     });
 
     return token;
@@ -26,7 +26,7 @@ module.exports = {
     });
     const user = await newUser.save()
     const token = signToken({
-      name: user.name, email: user.email
+      name: user.name, email: user.email, id: user._id
     });
     return token;
   }

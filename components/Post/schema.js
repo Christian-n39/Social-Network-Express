@@ -12,12 +12,28 @@ const postSchema = new Schema({
   },
   photo: {
     type: String,
-    default: "no photo"
+    required: true
   },
   user: {
     type: ObjectId,
     ref: 'users'
-  }
+  },
+  createdAt: {
+    type: String,
+    required: true
+  },
+  likes: [
+    {
+      username: String
+    }
+  ],
+  comments: [
+    {
+      body: String,
+      username: String,
+      createdAt: String
+    }
+  ]
 });
 
 module.exports = model('posts', postSchema);

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { login, register } = require('../components/User');
+const { checkAuth } = require('../utils/jwt');
 const { validateRegisterInputs, validateLoginInputs  } = require('../utils/validateInputs');
 
 router.post('/signin', async (req, res) => {
@@ -10,7 +11,7 @@ router.post('/signin', async (req, res) => {
     const token = await login(userData);
     res.json({ token })
   } catch(err) {
-    res.status(400).json({ message: err.message })
+    res.status(422).json({ message: err.message })
   }
 })
 
@@ -21,8 +22,9 @@ router.post('/signup', async (req, res) => {
     const token = await register(userData);
     res.status(201).json({ token })
   } catch(err) {
-    res.status(400).json({ message: err.message })
+    res.status(422).json({ message: err.message })
   }
 })
+
 
 module.exports = router
