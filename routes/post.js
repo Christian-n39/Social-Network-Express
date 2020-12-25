@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { validatePostInputs } = require('../utils/validateInputs');
 const { checkAuth } = require('../utils/jwt');
-const { createPost, getAllPosts, getPost, getMyPosts, likePost, commentPost } = require('../components/Post');
+const { createPost, getAllPosts, getPost, getMyPosts, likePost, commentPost, deletePost } = require('../components/Post');
 
 
 router.get('/posts', async (req, res) => {
@@ -66,6 +66,18 @@ router.put('/comment', async (req, res) => {
     const commentedPost = await commentPost(user, postId, body);
     res.json(commentedPost)
   } catch (err) {
+    res.json(err.message)
+  }
+});
+
+router.delete('/deletepost', async (req, res) => {
+  const user = await checkAuth(req, res);
+  const postId = req.body.postId
+  try {
+    const posts = await deletePost(user, postId);
+    const updatedPosts = await getAllPosts()
+    res.json(updatedPosts)
+  } catch(err) {
     res.json(err.message)
   }
 })

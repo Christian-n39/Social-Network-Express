@@ -57,5 +57,11 @@ module.exports = {
     });
     await post.save();
     return post
+  },
+  deletePost: async (user, postId) => {
+    const postOwner = await Post.findOne({ _id: postId}).populate('user', '_id email');
+    if(user.email !== postOwner.user.email) throw Error('You are not the owner');
+    await postOwner.delete()
+    return true
   }
 }
