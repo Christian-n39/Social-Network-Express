@@ -8,6 +8,7 @@ app.use(cors())
 app.use(express.json())
 app.use(require('./routes/auth'));
 app.use(require('./routes/post'));
+app.use(require('./routes/users'));
 
 const port = process.env.PORT || 5000;
 const { DB_USER, DB_PASSWORD, DB_AT, DB_NAME } = process.env;

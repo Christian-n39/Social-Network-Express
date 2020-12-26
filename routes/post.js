@@ -74,9 +74,9 @@ router.delete('/deletepost', async (req, res) => {
   const user = await checkAuth(req, res);
   const postId = req.body.postId
   try {
-    const posts = await deletePost(user, postId);
+    const photoId = await deletePost(user, postId);
     const updatedPosts = await getAllPosts()
-    res.json(updatedPosts)
+    res.json({posts: updatedPosts })
   } catch(err) {
     res.json(err.message)
   }

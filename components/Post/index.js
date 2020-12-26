@@ -15,10 +15,11 @@ module.exports = {
     const myPosts = await Post.find({ user: user._id }).populate('user', '_id name')
     return myPosts
   },
-  createPost: async ({ title, body, url }, user) => {
+  createPost: async ({ title, body, url, photoId }, user) => {
     const newPost = new Post({
       title,
       body,
+      photoId,
       user: {
         _id: user._id
       }, 

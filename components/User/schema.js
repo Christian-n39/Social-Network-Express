@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const { ObjectId } = require('mongoose').Types;
 
 const userSchema = new Schema ({
   name: {
@@ -12,7 +13,17 @@ const userSchema = new Schema ({
   password: {
     type: String,
     required: true
-  }
+  },
+  followers: [
+    {
+      username: String
+    }
+  ],
+  following: [
+    {
+      username: String
+    }
+  ]
 })
 
 module.exports = model('users', userSchema);
