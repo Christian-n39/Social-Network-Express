@@ -14,6 +14,10 @@ const userSchema = new Schema ({
     type: String,
     required: true
   },
+  profilePic: {
+    type: String,
+    default: "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg"
+  },
   followers: [
     {
       username: String

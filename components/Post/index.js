@@ -4,12 +4,17 @@ const ObjectId = require('mongoose').Types.ObjectId
 
 module.exports = {
   getAllPosts: async () => {
-    const posts = await Post.find().populate('user', '_id name')
+    const posts = await Post.find().populate('user', '_id name profilePic')
     return posts;
   },
   getPost: async (postId) => {
-    const post = await Post.findById(postId).populate('user', '_id name')
+    const post = await Post.findById(postId).populate('user', '_id name profilePic')
     return post
+  },
+  getFollowingPosts: async (user) => {
+    const posts = await Post.find().populate('user', '_id name profilePic');
+    const followingPosts = await posts.filter(post => post.user.name == user.following.map(follow => follow.username));
+    return followingPosts;
   },
   getMyPosts: async (user) => {
     const myPosts = await Post.find({ user: user._id }).populate('user', '_id name')
@@ -32,7 +37,8 @@ module.exports = {
       ...savedPost.toJSON(),
       user: {
         _id: user._id,
-        name: user.name
+        name: user.name,
+        profilePic: user.profilePic
       }
     };
   },

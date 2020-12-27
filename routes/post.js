@@ -3,12 +3,18 @@ const router = express.Router();
 
 const { validatePostInputs } = require('../utils/validateInputs');
 const { checkAuth } = require('../utils/jwt');
-const { createPost, getAllPosts, getPost, getMyPosts, likePost, commentPost, deletePost } = require('../components/Post');
+const { createPost, getAllPosts, getFollowingPosts, getPost, getMyPosts, likePost, commentPost, deletePost } = require('../components/Post');
 
 
 router.get('/posts', async (req, res) => {
   await checkAuth(req, res)
   const posts = await getAllPosts();
+  await res.json(posts)
+});
+
+router.get('/followingposts', async (req, res) => {
+  const user = await checkAuth(req, res)
+  const posts = await getFollowingPosts(user);
   await res.json(posts)
 });
 

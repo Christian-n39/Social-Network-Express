@@ -17,13 +17,13 @@ module.exports = {
 
     return token;
   },
-  register: async ({ name, email, password }) => {
+  register: async ({ name, email, password, url }) => {
     const existingUser = await User.findOne({ email });
     if(existingUser) throw new Error('User already exists');
 
     password = await bcrypt.hash(password, 7);
     const newUser = new User({
-      name, email, password
+      name, email, password, profilePic: url
     });
     const user = await newUser.save()
     const token = signToken({
@@ -37,7 +37,10 @@ module.exports = {
     const profile = {
       user: {
         _id: user._id,
-        name: user.name
+        name: user.name,
+        profilePic: user.profilePic,
+        followers: user.followers,
+        following: user.following,
       },
       posts
     };
@@ -63,8 +66,14 @@ module.exports = {
     await me.save()
     // Return updated list
     return {
-      following: me.following,
-      followers: me.followers
+      following: userToFollow.following,
+      followers: userToFollow.followers
     }
+  },
+  updateProfilePic: async (url, userId) => {
+    const user = await User.findById(userId);
+    user.profilePic = url;
+    await user.save()
+    return user.profilePic
   }
 }
