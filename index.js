@@ -6,6 +6,7 @@ const app = express();
 
 app.use(cors())
 app.use(express.json())
+app.use(require('./cors'));
 app.use(require('./routes/auth'));
 app.use(require('./routes/post'));
 app.use(require('./routes/users'));
